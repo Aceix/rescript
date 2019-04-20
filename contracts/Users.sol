@@ -1,9 +1,17 @@
-pragma solidity 0.5.0;
+pragma solidity ^0.5.0;
+
+import {StringUtils} from "../libraries/StringUtils.sol";
 
 contract Users{
   struct User{
-    uint dateCreated;
     uint id;
+    string email;
+    string passHash;
+    UserData data;
+  }
+
+  struct UserData{
+    uint accType;  // 0 = student; 1 = school;
     string name;
     string email;
     string mobile;
@@ -17,4 +25,88 @@ contract Users{
     string refNumber;
     string transcriptHash;
   }
+
+  // current uid
+  // this var is to ensure unique user ids for each user
+  uint cUID;
+
+  // users array/DB
+  User[] private users;
+
+  // active session list
+  // note that sessionID = userID
+  uint[] private activeSessions;
+
+  constructor() public{
+    // id of 0 means nothing
+    cUID = 1;
+  }
+
+  // function to create new user acc
+  function createUser(
+    string memory _email,
+    string memory _passHash,
+    uint _accType,
+    string memory _name,
+    string memory _mobile,
+    string memory _location,
+    uint _prevInst,
+    uint _yearCompleted,
+    string memory _refNumber,
+    string memory _transcriptHash
+  ) public returns (uint){
+    users.push(
+      User({
+        id: cUID++,
+        email: _email,
+        passHash: _passHash,
+        data: UserData({
+          accType: _accType,
+          name: _name,
+          email: _email,
+          mobile: _mobile,
+          location: _location,
+          prevInst: _prevInst,
+          yearCompleted: _yearCompleted,
+          refNumber: _refNumber,
+          transcriptHash: _transcriptHash
+        })
+      })
+    );
+
+    // log user in and return sid
+    return loginUser(_email, _passHash);
+  }
+
+  // function to login
+  function loginUser(
+    string memory _email,
+    string memory _passHash
+  ) public returns (uint) {
+    for (uint8 i = 0; i < users.length; i++) {
+      if(StringUtils.equal(users[i].email, _email) && StringUtils.equal(users[i].passHash, _passHash)){
+        activeSessions.push(users[i].id);
+        return users[id].id;
+      }
+    }
+    return 0;
+  }
+
+  // func to log user out
+  function logoutUser(uint sid) {
+    require(sid);
+    for(uint8 i = 0; i < activeSessions.length; i++){
+      if(activeSessions[i] == sid) delete activeSessions[i];
+    }
+  }
+
+  // func to verify user is authorized
+  function isAuthed(uint sid) external returns (bool) {
+    require(sid);
+    for(uint8 i = 0; i < activeSessions.length; i++){
+      if(activeSessions[i] == sid) return true;
+    }
+    return false;
+  }
+
 }
