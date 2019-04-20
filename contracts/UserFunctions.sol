@@ -5,7 +5,9 @@ import {SchoolFunctions} from "./SchoolFunctions.sol";
 
 contract UserFunctions{
   address usersContractAddr = "";
-  User u = User(usersContractAddr);
+  address schoolFunctionsContractAddr = "";
+  Users u = Users(usersContractAddr);
+  SchoolFunctions sF = SchoolFunctions(schoolFunctionsContractAddr);
 
   struct UserTranscriptRequestForm{
     uint uid;
@@ -24,11 +26,11 @@ contract UserFunctions{
     if(!isLoggedIn(_sid)) return 0;
     userTranscriptRequestForms.push(
       UserTranscriptRequestForm({
-        uid: sid,
+        uid: _sid,
         oldSchoolID: _oldSchoolID
       })
     );
-    addTranscriptRequest(
+    sF.addTranscriptRequest(
       _sid,
       _oldSchoolID,
       u.getUserName(_sid),
@@ -43,10 +45,10 @@ contract UserFunctions{
   // RETURNS 0 = FAIL; 1 = SUCCESS
   function onTranscriptForward(
     uint _sid,
-    uint _prosecSchoolID
-  ) returns (uint8){
+    uint _prospecSchoolID
+  ) public returns (uint8){
     if(!isLoggedIn(_sid)) return 0;
-    addTranscriptReceive(
+    sF.addTranscriptReceive(
       _sid,
       _prospecSchoolID,
       u.getUserTranscriptHash(_sid),
@@ -58,12 +60,12 @@ contract UserFunctions{
 
   // get the hash if its available
   // RETURN; 0 = UNAVAILABLE; <HASH> = AVAILABLE
-  function getTranscriptHash(uint _sid) public view returns (string){
+  function getTranscriptHash(uint _sid) public view returns (string memory){
     return u.getUserTranscriptHash(_sid);
   }
   
   // func to verify login
-  function isLoggedIn(uint sid){
-    return u.isAuthed(sid);
+  function isLoggedIn(uint _sid) internal returns (bool){
+    return u.isAuthed(_sid);
   }
 }

@@ -4,6 +4,7 @@ import {Users} from "./Users.sol";
 
 contract SchoolFunctions{
   address usersContractAddr = "";
+  Users u = Users(usersContractAddr);
 
   struct SchoolTranscriptRequest{
     uint uid;
@@ -40,7 +41,7 @@ contract SchoolFunctions{
 
     schoolTranscriptRequestList[_oldSchoolID].push(
       SchoolTranscriptRequest({
-        uid: sid,
+        uid: _sid,
         studentName: _studentName,
         yearCompleted: _yearCompleted,
         refNumber: _refNumber,
@@ -72,10 +73,10 @@ contract SchoolFunctions{
     uint _sid,
     uint _uid,
     string memory _transcriptHash
-  ){
+  ) public{
     if(!isLoggedIn(_sid)) return;
     // store the hash
-    setUserTranscriptHash(_sid, _transcriptHash);
+    u.setUserTranscriptHash(_sid, _transcriptHash);
     
     // delete the request
     for (uint8 i = 0; i < schoolTranscriptRequestList[_sid].length; i++) {
@@ -86,8 +87,7 @@ contract SchoolFunctions{
   }
 
   // func to verify login
-  function isLoggedIn(uint sid){
-    User u = User(usersContractAddr);
-    return u.isAuthed(sid);
+  function isLoggedIn(uint _sid) internal returns (bool){
+    return u.isAuthed(_sid);
   }
 }

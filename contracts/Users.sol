@@ -86,34 +86,34 @@ contract Users{
     for (uint8 i = 0; i < users.length; i++) {
       if(StringUtils.equal(users[i].email, _email) && StringUtils.equal(users[i].passHash, _passHash)){
         activeSessions.push(users[i].id);
-        return users[id].id;
+        return users[i].id;
       }
     }
     return 0;
   }
 
   // func to log user out
-  function logoutUser(uint sid) {
-    require(sid);
+  function logoutUser(uint sid) public {
+    require(sid > 0);
     for(uint8 i = 0; i < activeSessions.length; i++){
       if(activeSessions[i] == sid) delete activeSessions[i];
     }
   }
 
   // func to verify user is authorized
-  function isAuthed(uint sid) external returns (bool) {
-    require(sid);
+  function isAuthed(uint _sid) public view returns (bool) {
+    require(_sid > 0);
     for(uint8 i = 0; i < activeSessions.length; i++){
-      if(activeSessions[i] == sid) return true;
+      if(activeSessions[i] == _sid) return true;
     }
     return false;
   }
 
   // function to set hash
-  function setUserTranscriptHash(uint uid, string _transcriptHash) public{
+  function setUserTranscriptHash(uint uid, string memory _transcriptHash) public{
     if(!isAuthed(uid)) return;
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == uid){
+      if(users[i].id == uid){
         users[i].data.transcriptHash = _transcriptHash;
       }
     }
@@ -122,37 +122,37 @@ contract Users{
   
   // user details getters
   // return "" or 0 on FAILURE
-  function getUserName(uint _sid) public view returns (string){
+  function getUserName(uint _sid) public view returns (string memory){
     // if(!isAuthed(_sid)) return "";
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.name;
       }
     }
   }
 
-  function getUserEmail(uint _sid) public view returns (string){
+  function getUserEmail(uint _sid) public view returns (string memory){
     if(!isAuthed(_sid)) return "";
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.email;
       }
     }
   }
 
-  function getUserMobile(uint _sid) public view returns (string){
+  function getUserMobile(uint _sid) public view returns (string memory){
     if(!isAuthed(_sid)) return "";
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.mobile;
       }
     }
   }
 
-  function getUserLocation(uint _sid) public view returns (string){
+  function getUserLocation(uint _sid) public view returns (string memory){
     if(!isAuthed(_sid)) return "";
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.location;
       }
     }
@@ -161,34 +161,34 @@ contract Users{
   function getUserPrevInst(uint _sid) public view returns (uint){
     if(!isAuthed(_sid)) return 0;
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.prevInst;
       }
     }
   }
 
   function getUserYearCompleted(uint _sid) public view returns (uint){
-    if(!isAuthed(_sid)) return "";
+    if(!isAuthed(_sid)) return 0;
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.yearCompleted;
       }
     }
   }
 
-  function getUserRefNumber(uint _sid) public view returns (string){
+  function getUserRefNumber(uint _sid) public view returns (string memory){
     if(!isAuthed(_sid)) return "";
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.refNumber;
       }
     }
   }
 
-  function getUserTranscriptHash(uint _sid) public view returns (string){
+  function getUserTranscriptHash(uint _sid) public view returns (string memory){
     if(!isAuthed(_sid)) return "";
     for (uint8 i = 0; i < users.length; i++) {
-      if(users.id == _sid){
+      if(users[i].id == _sid){
         return users[i].data.transcriptHash;
       }
     }
