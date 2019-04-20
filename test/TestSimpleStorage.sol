@@ -2,18 +2,27 @@ pragma solidity ^0.5.0;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/SimpleStorage.sol";
+import "../contracts/Users.sol";
 
 contract TestSimpleStorage {
 
   function testItStoresAValue() public {
-    SimpleStorage simpleStorage = SimpleStorage(DeployedAddresses.SimpleStorage());
+    Users su = Users(DeployedAddresses.Users());
 
-    simpleStorage.set(89);
+    uint n = su.createUser(
+      "the.accolade@outlook.com",
+      "21234567890",
+      1,
+      "Kwesi",
+      "0546912825",
+      "Accra",
+      0,
+      0,
+      "",
+      ""
+    );
 
-    uint expected = 89;
-
-    Assert.equal(simpleStorage.get(), expected, "It should store the value 89.");
+    Assert.equal(su.getUserEmail(n), "aceixsmartx@gmailcom", "Test failed");
   }
 
 }

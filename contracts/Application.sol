@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 import {StringUtils} from "../libraries/StringUtils.sol";
 
@@ -119,6 +120,16 @@ contract Users{
     }
   }
 
+  function getAllRegisteredSchools() public view returns (string[] memory) {
+    string[] memory l;
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users[i].data.accType == 1){
+        l[i] = users[i].data.name;
+      }
+    }
+    return l;
+  }
+
   
   // user details getters
   // return "" or 0 on FAILURE
@@ -194,4 +205,164 @@ contract Users{
     }
   }
 
+}
+
+
+
+contract SchoolFunctions{
+  address usersContractAddr = 0x1180BCA5076D506Ed97Cb4634bAa639e7b98F9dF;
+  Users u = Users(usersContractAddr);
+
+  struct SchoolTranscriptRequest{
+    uint uid;
+    string studentName;
+    uint yearCompleted;
+    string refNumber;
+    string email;
+  }
+
+  struct SchoolTranscriptReceive{
+    string hashString;
+    string oldSchoolName;
+    string studentName;
+  }
+  
+  // school transcript request list
+  mapping (uint => SchoolTranscriptRequest[]) public schoolTranscriptRequestList;
+
+  // school transcript receive list
+  mapping(uint => SchoolTranscriptReceive[]) public schoolTranscriptReceiveList;
+
+
+  // func to add to school request list
+  function addTranscriptRequest(
+    uint _sid,
+    uint _oldSchoolID,
+    string memory _studentName,
+    uint _yearCompleted,
+    string memory _refNumber,
+    string memory _email
+  ) public{
+    if(!isLoggedIn(_sid)) return;
+    require(_oldSchoolID > 0);
+
+    schoolTranscriptRequestList[_oldSchoolID].push(
+      SchoolTranscriptRequest({
+        uid: _sid,
+        studentName: _studentName,
+        yearCompleted: _yearCompleted,
+        refNumber: _refNumber,
+        email: _email
+      })
+    );
+  }
+
+  // func to add to school receive list
+  function addTranscriptReceive(
+    uint _sid,
+    uint _schoolID,
+    string memory _hashString,
+    string memory _oldSchoolName,
+    string memory _studentName
+  ) public{
+    if(!isLoggedIn(_sid)) return;
+    schoolTranscriptReceiveList[_schoolID].push(
+      SchoolTranscriptReceive({
+        hashString: _hashString,
+        oldSchoolName: _oldSchoolName,
+        studentName: _studentName
+      })
+    );
+  }
+
+  // func to resolve transcript request
+  function resolveTranscriptRequest(
+    uint _sid,
+    uint _uid,
+    string memory _transcriptHash
+  ) public{
+    if(!isLoggedIn(_sid)) return;
+    // store the hash
+    u.setUserTranscriptHash(_sid, _transcriptHash);
+    
+    // delete the request
+    for (uint8 i = 0; i < schoolTranscriptRequestList[_sid].length; i++) {
+      if(schoolTranscriptRequestList[_sid][i].uid == _uid){
+        delete schoolTranscriptRequestList[_sid][i];
+      }
+    }
+  }
+
+  // func to verify login
+  function isLoggedIn(uint _sid) view internal returns (bool){
+    return u.isAuthed(_sid);
+  }
+}
+
+
+contract UserFunctions{
+  address usersContractAddr = 0x1180BCA5076D506Ed97Cb4634bAa639e7b98F9dF;
+  address schoolFunctionsContractAddr = 0xE636cdE2E9b9a4e40Ad2dbfFF28011A94701f6aA;
+  Users u = Users(usersContractAddr);
+  SchoolFunctions sF = SchoolFunctions(schoolFunctionsContractAddr);
+
+  struct UserTranscriptRequestForm{
+    uint uid;
+    uint oldSchoolID;
+  }
+  
+  // list of tmp user request forms
+  UserTranscriptRequestForm[] userTranscriptRequestForms;
+
+  // func to process transcript request
+  // RETURN: 0 = FAILED; 1 = SUCCESS
+  function onTranscriptRequest(
+    uint _sid,
+    uint _oldSchoolID
+  ) public returns (uint8){
+    if(!isLoggedIn(_sid)) return 0;
+    userTranscriptRequestForms.push(
+      UserTranscriptRequestForm({
+        uid: _sid,
+        oldSchoolID: _oldSchoolID
+      })
+    );
+    sF.addTranscriptRequest(
+      _sid,
+      _oldSchoolID,
+      u.getUserName(_sid),
+      u.getUserYearCompleted(_sid),
+      u.getUserRefNumber(_sid),
+      u.getUserEmail(_sid)
+    );
+    return 1;
+  }
+
+  // func to handle sending the transcription to prospec school
+  // RETURNS 0 = FAIL; 1 = SUCCESS
+  function onTranscriptForward(
+    uint _sid,
+    uint _prospecSchoolID
+  ) public returns (uint8){
+    if(!isLoggedIn(_sid)) return 0;
+    sF.addTranscriptReceive(
+      _sid,
+      _prospecSchoolID,
+      u.getUserTranscriptHash(_sid),
+      u.getUserName(u.getUserPrevInst(_sid)),
+      u.getUserName(_sid)
+    );
+    return 1;
+  }
+
+  // get the hash if its available
+  // RETURN; 0 = UNAVAILABLE; <HASH> = AVAILABLE
+  function getTranscriptHash(uint _sid) public view returns (string memory){
+    return u.getUserTranscriptHash(_sid);
+  }
+  
+  // func to verify login
+  function isLoggedIn(uint _sid) view internal returns (bool){
+    return u.isAuthed(_sid);
+  }
 }

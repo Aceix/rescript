@@ -4,8 +4,8 @@ import {Users} from "./Users.sol";
 import {SchoolFunctions} from "./SchoolFunctions.sol";
 
 contract UserFunctions{
-  address usersContractAddr = "";
-  address schoolFunctionsContractAddr = "";
+  address usersContractAddr = 0x1c467290D104FED1Fe910CF6b4cedAEE4587a643;
+  address schoolFunctionsContractAddr = 0x2923D3c2d76c3B4514958835A3EF19694C49d96C;
   Users u = Users(usersContractAddr);
   SchoolFunctions sF = SchoolFunctions(schoolFunctionsContractAddr);
 

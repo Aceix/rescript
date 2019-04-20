@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import {Users} from "./Users.sol";
 
 contract SchoolFunctions{
-  address usersContractAddr = "";
+  address usersContractAddr = 0x1180BCA5076D506Ed97Cb4634bAa639e7b98F9dF;
   Users u = Users(usersContractAddr);
 
   struct SchoolTranscriptRequest{
