@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 import {Users} from "./Users.sol";
 
-contract SchoolData{
+contract SchoolFunctions{
   struct SchoolTranscriptRequest{
     uint studentID;
     string studentName;
