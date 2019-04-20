@@ -109,4 +109,89 @@ contract Users{
     return false;
   }
 
+  // function to set hash
+  function setUserTranscriptHash(uint uid, string _transcriptHash) public{
+    if(!isAuthed(uid)) return;
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == uid){
+        users[i].data.transcriptHash = _transcriptHash;
+      }
+    }
+  }
+
+  
+  // user details getters
+  // return "" or 0 on FAILURE
+  function getUserName(uint _sid) public view returns (string){
+    // if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.name;
+      }
+    }
+  }
+
+  function getUserEmail(uint _sid) public view returns (string){
+    if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.email;
+      }
+    }
+  }
+
+  function getUserMobile(uint _sid) public view returns (string){
+    if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.mobile;
+      }
+    }
+  }
+
+  function getUserLocation(uint _sid) public view returns (string){
+    if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.location;
+      }
+    }
+  }
+
+  function getUserPrevInst(uint _sid) public view returns (uint){
+    if(!isAuthed(_sid)) return 0;
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.prevInst;
+      }
+    }
+  }
+
+  function getUserYearCompleted(uint _sid) public view returns (uint){
+    if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.yearCompleted;
+      }
+    }
+  }
+
+  function getUserRefNumber(uint _sid) public view returns (string){
+    if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.refNumber;
+      }
+    }
+  }
+
+  function getUserTranscriptHash(uint _sid) public view returns (string){
+    if(!isAuthed(_sid)) return "";
+    for (uint8 i = 0; i < users.length; i++) {
+      if(users.id == _sid){
+        return users[i].data.transcriptHash;
+      }
+    }
+  }
+
 }
