@@ -1,0 +1,77 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+.blacky{
+    display: flex;
+    flex-direction: column;
+    width: stretch;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.45);
+
+}
+
+.loginInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 50%;
+    align-self: center;
+    margin: auto 0;
+}
+
+.theTitle{
+    width: 80%;
+    height: 20%;
+    text-align: center;
+    font-size: 2.2em;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.loginInput > input{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    margin: 5px;
+    width: 80%;
+    height: 18%;
+    color: white;
+    font-size: 1.1em;
+}
+
+.loginInput > input:focus{
+    outline: none;
+}
+
+.loginInput > ::placeholder{
+    color: white;
+    font-size: 1.1em;
+}
+
+.loginInput > a{
+    width: 30%;
+    height: 10%;
+    text-decoration: none;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: stretch;
+    height: stretch;
+    text-align: center;
+    margin-top: 15px;
+    border-radius:15px;
+    background-color: rgb(105, 105, 105);
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+}

@@ -1,0 +1,101 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+
+.signupMain{
+    /* type of display */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    /* the body parameters */
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+
+    /* The image used */
+    background-image: url("/images/background.jpg");
+
+    /* positioning of image */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+
+.innerbody{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 30%;
+    height: 90%;
+    border: 4px solid rgb(105, 105, 105);
+    background-color:white;
+    margin: auto auto;
+    align-items: center
+}
+
+.title{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgb(105, 105, 105);
+    width: stretch;
+    height: 10%;
+    justify-content: center;
+    padding: 10px;
+    color: blue;
+    font-size: 1.5em
+}
+
+.inputDiv{
+    display: flex;
+    flex-direction: column;
+    width: stretch;
+    height: 80%;
+    align-items: center;
+    padding: 10px;
+    
+}
+
+.inputDiv > input{
+    width: 80%;
+    height: 13%;
+    margin: 5px;
+}
+
+
+.inputDiv > ::placeholder{
+    font-size: 1.3em
+}
+
+.location{
+    width: 80%;
+}
+
+.location >label{
+    color: rgb(105, 105, 105) 
+}
+
+.location > iframe{
+    width: stretch;
+}
+
+.button1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 6%;
+    text-align: center;
+    margin-top: 15px;
+    background-color:blue;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 3px;
+}
+

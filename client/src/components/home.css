@@ -1,0 +1,82 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+#main{
+    /* type of display */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    /* the body parameters */
+    width: 100vw;
+    height: 100vh;
+
+    /* The image used */
+    background-image: url("/images/background.jpg");
+
+    /* positioning of image */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+#header{
+
+    /* description of layer */
+    display: flex;
+    flex-direction: column;
+    width: stretch;
+    height: 15%;
+    background-color: rgba(30, 144, 255,0.5);
+
+    /* text description */
+    font-size: 3em;
+    justify-content: center;
+    color: white;
+    padding: 10px;
+}
+
+#body{
+    /* orientation */
+    width: 20%;
+    height: 40%;
+    margin: auto auto;
+}
+
+#body >a{
+    text-decoration:none;
+}
+
+.option{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: stretch;
+    height: 18%;
+    margin: 13px auto 13px auto;
+    background-color: rgb(105, 105, 105);
+    color: white;
+    border-radius:15px;
+    font-size: 1.5em;
+    
+}
+
+.text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: stretch;
+    height: 10%;
+    margin: 5px auto 5px auto;
+    font-size:1em;
+    color:  rgb(105, 105, 105);
+}
+
+.text >a{
+   color:grey;
+   font-size: 1em;
+}

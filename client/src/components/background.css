@@ -1,0 +1,27 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+
+#main1{
+    /* type of display */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    /* the body parameters */
+    width:stretch;
+    height: stretch;
+
+    /* The image used */
+    background-image: url("/images/background.jpg");
+
+    /* positioning of image */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+
+}
