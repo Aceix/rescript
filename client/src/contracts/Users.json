@@ -25111,14 +25111,14 @@
     "5777": {
       "events": {},
       "links": {
-        "StringUtils": "0xFD8Cc7939FcABF73E0854A52692dd2Ea4aC40F5E"
+        "StringUtils": "0x238B662cC75F276D7739C26ebEEb65B527aF7dc5"
       },
-      "address": "0x1180BCA5076D506Ed97Cb4634bAa639e7b98F9dF",
-      "transactionHash": "0x5188e5de64367493be67661c8e803597ca50caf9960fe24e4bf8753bb5c22dc6"
+      "address": "0x1c467290D104FED1Fe910CF6b4cedAEE4587a643",
+      "transactionHash": "0x317c90c9fb4bf3dea4677d60267d9f17a1fc809c9c3a0867df72bbf64a8daa5f"
     }
   },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-20T13:14:14.709Z",
+  "updatedAt": "2019-04-21T12:12:00.596Z",
   "devdoc": {
     "methods": {}
   },
